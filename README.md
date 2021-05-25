@@ -14,18 +14,18 @@ Materials for the "Docker fundamentals" course at La Poste.
 
 ## Modules
 
+0. Prerequisites
 1. Introduction
-2. Linux, CLI & Git basics
-3. ...
+2. Docker fundamentals
+3. Docker images
+4. Docker storage
+5. Docker network
+6. Docker Compose
+7. Container orchestration | with Kubernetes
 
-## Structure of a module
+## Program
 
-The materials are contained in the Markdown files in the [modules](modules) folder. The folders contains following files:
-
-- `index.md` - materials for the module
-- `slides.pdf` - PDF slides
-- `assets` folder - assets provided for the labs
-- `image` folder - images used in the `.md` files
+The program of the cours is [here](PROGRAM.pdf).
 
 ## Author
 
