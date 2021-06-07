@@ -1,41 +1,60 @@
 
 # Docker fundamentals
 
-## Container vs Virtual Machines vs Bare metal
 
-![Container vs Virtual Machines vs Bare metal](image/container_evolution.png)
 
 ## Docker avantages
 
   - **Portable anywhere** (Linux, Windows, Datacenter, Cloud, Serverless, etc.)   
-  Docker created the industry standard for containers.
+    Docker created the industry standard for containers.
   - **Lightweight**   
-  Containers share the machine’s OS system kernel and therefore do not require an OS per application, driving higher server efficiencies and reducing server and licensing costs.
-  - **Secure**   
-  Applications are safer in containers and Docker provides the strongest default isolation capabilities in the industry.
+    Containers share the machine’s OS system kernel and therefore do not require an OS per application, driving higher server efficiencies and reducing server and licensing costs.
+  - **Almost Secure**   
+    Applications are safer in containers than sharing a same host.
 
-## Namespaces an cgroups
+## What is Docker
 
-- When running on Linux, Docker uses the resource isolation features of the Linux kernel:
-  - cgroups   
-    Provide resource limiting for memory and CPU
-  - namespaces   
-    Isolates an application's view of the operating environment, including process trees, network, user IDs and mounted file systems
-- Docker on macOS and Windows uses a Linux virtual machine to run Linux containers
+- A company, Docker Inc
+- A container runtime, Docker containers
+- An image format, Docker images
+- Some developers tools
 
-![Docker linux interfaces](image/docker-linux-interfaces.png)
+## Docker history
+
+- Docker Inc. was founded by Kamel Founadi, Solomon Hykes, and Sebastien Pahl during the Y Combinator Summer 2010 startup incubator group and launched in 2011
+- released as open-source in March 2013
+- Started with the LXC runtime until Docker 0.9
+- Now use containerd
+
+## [Docker and DevOps](https://www.docker.com/resources/white-papers/docker-and-three-ways-devops)
+
+Docker provides global optimization around software:
+
+- Increase "velocity": developer, integration and deployment flows
+- Decrease "variation": infrastructure and application are included in the Docker image
+- Provide "visualization": microservices model real world domains
+
+![DevOps life cycle](./assets/devops.png)
+
+## Example of a Docker workflow
+
+1. Developers write code locally and replicate the targetted production enviornment dependencies with containers
+2. They package and share their work with their colleagues using Git and Docker containers.
+3. They use Docker to push their applications into a test environment and execute automated and manual tests.
+4. When developers find bugs, they can fix them in the development environment and redeploy them to the test environment for testing and validation.
+5. When testing is complete, getting the fix to the customer is as simple as pushing the updated image to the production environment.
 
 ## Docker architecture
 
 - client (CLI via REST API)
-- server (Docker host) - daemon, containers, images, volumes
+- server (Docker host) - daemon, runtime, containers, images, volumes
 - registry - Docker Hub
 
-![Docker architecture](image/docker-architecture.png)
+![Docker architecture](./assets/docker-architecture.png)
 
 ## Docker components
 
-![Docker objects and Docker engine](image/docker-engine-components.png)
+![Docker objects and Docker engine](./assets/docker-engine-components.png)
 
 **Docker engine:**
 
@@ -80,4 +99,4 @@ Docker objects are available to be observed and controlled using the command `do
 - `docker exec` - run a command in a running container
 - ...
 
-Example: `docker run -i -t ubuntu /bin/bash`
+Example: `docker run -i -t --rm ubuntu /bin/bash`

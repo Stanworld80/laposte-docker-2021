@@ -14,21 +14,24 @@ Materials for the "Docker fundamentals" course at La Poste.
 
 ## Modules
 
-0. Prerequisites
-1. Introduction
-2. Docker fundamentals
-3. Docker images
-4. Docker storage
-5. Docker network
-6. Docker Compose
-7. Container orchestration | with Kubernetes
+- Day 1:
 
-## Program
+  1. Docker fundamentals
+  2. Docker images
 
-The program of the cours is [here](PROGRAM.pdf).
+- Day 2:
+
+  3. Docker storage
+  4. Docker network
+  5. Docker Compose
+
+- Day 3
+
+  6. Advanced Docker Compose
+  7. Container orchestration | with Kubernetes
 
 ## Author
 
-Sergei Kudinov   
-sergei@adaltas.com   
-Developer and DevOps Engineer at [Adaltas](https://www.adaltas.com/)
+David Worms  
+david@adaltas.com   
+Big Data and DevOps Engineer at [Adaltas](https://www.adaltas.com/)
