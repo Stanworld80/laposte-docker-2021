@@ -1,7 +1,5 @@
 
-# Docker fundamentals
-
-
+# Docker essentials
 
 ## Docker avantages
 

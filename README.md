@@ -15,20 +15,18 @@ Materials for the "Docker fundamentals" course at La Poste.
 ## Modules
 
 - Day 1:
-
-  1. Docker fundamentals
-  2. Docker images
-
+  1. Container essentials
+  2. Docker essentials
+     Lab: Docker CLI 101
+  3. Dockerfile
+  4. Docker images
+     Lab: Linux overlay filesystem and Docker
 - Day 2:
-
-  3. Docker storage
-  4. Docker network
-  5. Docker Compose
-
+  5. Docker storage
+  6. Docker network
 - Day 3
-
-  6. Advanced Docker Compose
-  7. Container orchestration | with Kubernetes
+  7. Docker Compose
+  8. Container orchestration | with Kubernetes
 
 ## Author
 

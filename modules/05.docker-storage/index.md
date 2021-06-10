@@ -8,6 +8,7 @@ By default, all the files created inside a container are stored on a writable co
 - The data in a container is not persistent
 - You can’t easily move the data somewhere else   
   A container’s writable layer is tightly coupled to the host machine.
+- Data is only available from its container
 - read and write speeds via the storage driver are lower than native file system performance   
   Writing into a container’s writable layer requires a storage driver to manage the filesystem. The storage driver provides a union filesystem, using the Linux kernel. This extra abstraction reduces performance as compared to using data volumes, which write directly to the host filesystem.
 
@@ -20,6 +21,8 @@ By default, all the files created inside a container are stored on a writable co
 ![Docker storage types](image/storage-types.png)
 
 ## Storage types: Volumes
+
+[Docker volumes](https://docs.docker.com/storage/volumes/) are:
 
 - are the best way to persist data in Docker
 - are stored in a part of the host filesystem which is managed by Docker (`/var/lib/docker/volumes/` on Linux)

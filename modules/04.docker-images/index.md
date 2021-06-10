@@ -15,7 +15,13 @@ An image is a read-only template with instructions for creating a Docker contain
 - Images is made of layers
 - Layers represent the filesystem differences
 - Layers are stacked on top of each other to form a base for containers filesystem
-- The Docker storage driver stacks it and provides a single unified view
+- Layers are `read-only`
+
+## Storage driver
+
+- The [Docker storage driver](https://docs.docker.com/storage/storagedriver/) stacks it and provides a single unified view
+- Handles the details about the way these layers interact with each other
+- Different storage drivers, with advantages and disadvantages in different situations
 
 ![Image layers](image/docker-images.png)
 
@@ -34,6 +40,7 @@ An image is a read-only template with instructions for creating a Docker contain
 
 ## Copy on Write strategy (CoW)
 
+- Used by all storage drivers
 - Copy-on-write is a mechanism allowing to share data.
 - The data appears to be a copy, but is only a link (or reference) to the original data.
 - The actual copy happens only when someone tries to change the shared data.
@@ -41,14 +48,28 @@ An image is a read-only template with instructions for creating a Docker contain
 
 ## Copy on Write strategy (CoW) advantages
 
-Copy-on-write is essential to give us "convenient" containers:
-
-- Optimizes both image disk space usage and the performance of container start times.
-- Creating a new container (from an existing image) is "free"   
+* First time a file is modified in the lower layer, it is created in the upper layer
+* Optimizes image disk space usage
+* Optimize container disk space usage, see `du -hs ls /var/lib/docker/containers/*`
+* Improve container start times by not having to copy the entire image
+* Creating a new container (from an existing image) is "free"   
   Otherwise, we would have to copy the image first.
-- Customizing a container (by tweaking a few files) is cheap   
+* Customizing a container (by tweaking a few files) is cheap   
   Adding a 1 KB configuration file to a 1 GB container takes 1 KB, not 1 GB.
-- We can take snapshots, i.e. have "checkpoints" or "save points" when building images
+* We can take snapshots, i.e. have "checkpoints" or "save points" when building images
+
+## Container size on disk
+
+* use the `docker ps -s` command
+  * `size`: the amount of data (on disk) that is used for the writable layer of each container.
+  * `virtual size`: the amount of data used for the read-only image data used by the container plus the container’s writable layer `size`.  Two containers started from the same image share 100% of the read-only data, while two containers with different images which have layers in common share those common layers.
+* Total disk space is not the sum of `virtual size`
+* beside the container and image size, we shall take into account:
+  * Disk space used for log files with the `json-file` logging driver
+  * Volumes and bind mounts used by the container
+  * Disk space used for the container’s configuration files, small
+  * Memory written to disk (if swapping is enabled)
+  * Checkpoints, if you’re using the experimental checkpoint/restore feature
 
 ## Building Docker images
 
@@ -60,30 +81,6 @@ To build an image, you create a `Dockerfile`:
 - when you change the `Dockerfile` and rebuild the image, only those layers which have changed are rebuilt. It makes it lightweight, small, and fast.
 
 [Learn Dockerfile instructions](https://docs.docker.com/engine/reference/builder/#format)
-
-## Dockerfile examples
-
-**Python app:**
-
-```
-FROM ubuntu:15.04
-COPY . /app
-RUN make /app
-CMD python /app/app.py
-```
-
-**Node.js app:**
-
-```
-FROM node:12
-WORKDIR /usr/src/app
-COPY package.json .
-RUN npm install
-COPY . .
-CMD [ "npm", "start" ]
-```
-
-
 
 ## CLI to build an image
 
