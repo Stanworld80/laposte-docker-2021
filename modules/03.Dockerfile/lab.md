@@ -3,38 +3,39 @@
 
 ## Objectives
 
-You will learn how to build an image using a Dockerfile.
+* Build an image using a Dockerfile.
+* Start the NGINX web server in a container
+* Enter a running container
+* A subset of the most common Dockerfile instructions
 
 ## Step 1 - Write Dockerfile
 
 1. Create `Dockerfile`
 
-  To create and edit a file, you can use Vim (`vi Dockerfile`) or the following syntax:
+   To create and edit a file, you can use Vim (`vi Dockerfile`) or the following syntax:
+   ```
+   cat > Dockerfile << EOF
+   # Replace me with valid Dockerfile intructions
+   EOF
+   ```
 
-  ```
-  cat > Dockerfile << EOF
-  # Replace me with valid Dockerfile intructions
-  EOF
-  ```
+   Replace the `Dockerfile` content with
+   ```bash
+   FROM ubuntu
+   RUN apt-get update && apt-get install nginx -y && apt-get clean
+   CMD ["bash"]
+   ```
 
-  Replace the `Dockerfile` content with
-
-  ```bash
-  FROM ubuntu
-  RUN apt-get update && apt-get install nginx -y && apt-get clean
-  CMD ["bash"]
-  ```
-
-  [Learn Dockerfile instructions](https://docs.docker.com/engine/reference/builder/#format)
+   [Learn Dockerfile instructions](https://docs.docker.com/engine/reference/builder/#format)
 
 2. Verify the file with `cat Dockerfile`
 
-  Above Dockerfile content describes a Debian image with Apache web server installed.
+   Above Dockerfile content describes a Debian image with Apache web server installed.
 
-  - `FROM` indicates the base image for our build
-  - Each `RUN` line will be executed by Docker during the build
-  - Our `RUN` commands must be non-interactive. (You can‘t provide input to Docker during the build.)
-  - In many cases, we will add the `-y` flag to `apt-get`.
+   - `FROM` indicates the base image for our build
+   - Each `RUN` line will be executed by Docker during the build
+   - Our `RUN` commands must be non-interactive. (You can‘t provide input to Docker during the build.)
+   - In many cases, we will add the `-y` flag to `apt-get`.
 
 ## Step 2 - Build an image
 
