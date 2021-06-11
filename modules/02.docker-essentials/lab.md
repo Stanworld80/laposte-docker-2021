@@ -43,7 +43,7 @@
 
 1. Run the Alpine Linux container using `docker run alpine` 
 
-  `alpine` is a smallest Docker image based on Alpine Linux with only 5 MB in size!
+  `alpine` is the smallest Docker image based on Alpine Linux with only 5 MB in size!
 
 2. List running containers.
 
@@ -67,4 +67,3 @@
 1. The basic Docker CLI commands 
 2. How to manage containers
 3. How to run commands inside a container
-

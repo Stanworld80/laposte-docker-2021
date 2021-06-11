@@ -48,7 +48,7 @@ TODO
 
 - `docker network create my-net` - create a network
 - `docker network rm my-net` - remove a network
-- connect container to a user-defined bridge   
+- connect a container to a user-defined bridge   
   ```
   docker create --name my-nginx \
     --network my-net \

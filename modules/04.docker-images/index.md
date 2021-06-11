@@ -8,13 +8,13 @@ An image is a read-only template with instructions for creating a Docker contain
 - is a read-only template
 - contains instructions for creating a Docker container
 - (often) is based on another image, with some additional customization
-- you might create your own images or you might use published in a registry
+- you might create your own images or you might use them published in a registry
 
 ## Image layers
 
 - Images is made of layers
 - Layers represent the filesystem differences
-- Layers are stacked on top of each other to form a base for containers filesystem
+- Layers are stacked on top of each other to form a base for the container's filesystem
 - Layers are `read-only`
 
 ## Storage driver
@@ -74,7 +74,7 @@ An image is a read-only template with instructions for creating a Docker contain
   * Disk space used for log files with the `json-file` logging driver
   * Volumes and bind mounts used by the container
   * Disk space used for the container’s configuration files, small
-  * Memory written to disk (if swapping is enabled)
+  * Memory was written to disk (if swapping is enabled)
   * Checkpoints, if you’re using the experimental checkpoint/restore feature
 
 ## Building Docker images
@@ -82,7 +82,7 @@ An image is a read-only template with instructions for creating a Docker contain
 To build an image, you create a `Dockerfile`:
 
 - is a configuration file for building images.
-- it has simple syntax for defining the steps needed to create the image and run it
+- it has a simple syntax for defining the steps needed to create the image and run it
 - each instruction in a `Dockerfile` creates a layer in the image
 - when you change the `Dockerfile` and rebuild the image, only those layers which have changed are rebuilt. It makes it lightweight, small, and fast.
 
@@ -102,7 +102,7 @@ Cleanup
 
   `docker image prune`
 
-  A new build of the image is created without a new name, the old images becomes the "dangling image".
+  A new build of the image is created without a new name, the old images become the "dangling image".
 
 * Remove both unused and dangling images
 

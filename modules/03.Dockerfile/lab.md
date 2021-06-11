@@ -62,9 +62,9 @@ The container is not yet ready to serve HTTP request, the web server Nginx is in
 
    `docker run -i -t --rm --name my_webserver webserver`
 
-2. `-i` and `-t` keep STDIN open and allocate a pseudy-TTY
+2. `-i` and `-t` keep STDIN open and allocate a pseudo TTY
 
-   combined toguether, they permit to enter the container with a terminal
+   combined together, they permit to enter the container with a terminal
 
    Use `-it` as a shortcut
 
@@ -76,7 +76,7 @@ The container is not yet ready to serve HTTP request, the web server Nginx is in
 
 5. `pid 1` is protected, you can't kill it with `kill -9 1` 
 
-6. Start nginx in attached mode `nginx -g 'daemon off;'`
+6. Start Nginx in attached mode `nginx -g 'daemon off;'`
 
 ## Step 4 - Enter a running container
 
@@ -172,4 +172,3 @@ Now that NGINX is started in attached mode, we can't issue new commands from the
 * Enter a running container
 * Add assets from the host machine to the container
 * Expose publicly a port opened inside the container
-

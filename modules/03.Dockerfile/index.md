@@ -10,7 +10,7 @@
 
 ## Good to know
 
-* Since version 18.09, Docker use a new backend called [Buildkit](https://github.com/moby/buildkit)
+* Since version 18.09, Docker uses a new backend called [Buildkit](https://github.com/moby/buildkit)
 
   * Detect and skip executing unused build stages
   * Parallelize building independent build stages
@@ -48,9 +48,9 @@
 * [`CMD`](https://docs.docker.com/engine/reference/builder/#cmd)
 
   * `exec` form and `shell` form
-  * Provide defaults for an executing container, as an executable or as argument from `ENTRYPOINT`.
+  * Provide defaults for an executing container, as an executable or as an argument from `ENTRYPOINT`.
 
-  * Only one `CMD` instruction, last one takes precedence.
+  * Only one `CMD` instruction, the last one takes precedence.
   * Provide default arguments to `ENTRYPOINT` when defined.
   * Overwritable with the command line `docker run [OPTIONS] IMAGE [COMMAND] [ARG...]`
 
@@ -93,7 +93,7 @@
 
     `shell` form: `ENTRYPOINT command param1 param2`
 
-  * `shell` form prevents any `CMD` or `run` command line arguments from being used.
+  * `shell` form prevents any `CMD` or `run` command-line arguments from being used.
 
   * with `shell` form, executable will not be the container’s PID 1 and will not receive Unix signals (with `docker stop`).
 
@@ -114,7 +114,7 @@
 * `WORKDIR`
 
   * `WORKDIR /path/to/workdir`
-  * Sets the working directory for any `RUN`, `CMD`, `ENTRYPOINT`, `COPY` and `ADD` instruction.
+  * Sets the working directory for any `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, and `ADD` instruction.
 
 ## Starter scripts
 
@@ -152,7 +152,7 @@
 * Kubernetes integration with [kpack](https://github.com/pivotal/kpack), declarative resource definitions for mapping source code to buildpacks.
 * Increase developer productivity with reduced developer actions.
 * Avoid sharing a `Dockerfile` requiring Docker familiarity and knowledge to quickly build (and rebuild) small and secure images.
-* Developer don't need to write anything, to take care of size and security.
+* Developers don't need to write anything, to take care of size and security.
 * Rely upon an open-source project and its community contributions.
 * Less control but with great power comes great responsibilities.
 
@@ -196,4 +196,3 @@ CMD [ "npm", "start" ]
 * Leverage and understand build cache
 * Use/extend [trusted images](https://docs.docker.com/engine/security/trust/)
 * Configure container's application to [run as non-root user](https://docs.docker.com/engine/security/userns-remap/) to prevent privilege-escalation
-

@@ -1,7 +1,7 @@
 
 # Docker essentials
 
-## Docker avantages
+## Docker advantages
 
   - **Portable anywhere** (Linux, Windows, Datacenter, Cloud, Serverless, etc.)   
     Docker created the industry standard for containers.
@@ -10,7 +10,7 @@
     Containers share the machine’s OS system kernel and therefore do not require an OS per application, driving higher server efficiencies and reducing server and licensing costs.
     
   - **Almost Secure**   
-    Applications are safer in containers than sharing a same host.
+    Applications are safer in containers than sharing the same host.
     
     Optional [rootless mode](https://docs.docker.com/engine/security/rootless/), Docker daemon as a non-root user
 
@@ -32,15 +32,15 @@
 
 Docker provides global optimization around software:
 
-- Increase "velocity": developer, integration and deployment flows
+- Increase "velocity": developer, integration, and deployment flows
 - Decrease "variation": infrastructure and application are included in the Docker image
-- Provide "visualization": microservices model real world domains
+- Provide "visualization": microservices model real-world domains
 
 ![DevOps life cycle](./assets/devops.png)
 
 ## Example of a Docker workflow
 
-1. Developers write code locally and replicate the targetted production enviornment dependencies with containers
+1. Developers write code locally and replicate the targetted production environment dependencies with containers
 2. They package and share their work with their colleagues using Git and Docker containers.
 3. They use Docker to push their applications into a test environment and execute automated and manual tests.
 4. When developers find bugs, they can fix them in the development environment and redeploy them to the test environment for testing and validation.
