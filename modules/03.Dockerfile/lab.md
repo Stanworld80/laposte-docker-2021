@@ -14,7 +14,7 @@
 
    To create and edit a file, you can use Vim (`vi Dockerfile`) or the following syntax:
    ```
-   cat > Dockerfile << EOF
+   cat > Dockerfile <<EOF
    # Replace me with valid Dockerfile intructions
    EOF
    ```

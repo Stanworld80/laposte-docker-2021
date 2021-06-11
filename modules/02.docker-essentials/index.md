@@ -5,10 +5,14 @@
 
   - **Portable anywhere** (Linux, Windows, Datacenter, Cloud, Serverless, etc.)   
     Docker created the industry standard for containers.
+    
   - **Lightweight**   
     Containers share the machine’s OS system kernel and therefore do not require an OS per application, driving higher server efficiencies and reducing server and licensing costs.
+    
   - **Almost Secure**   
     Applications are safer in containers than sharing a same host.
+    
+    Optional [rootless mode](https://docs.docker.com/engine/security/rootless/), Docker daemon as a non-root user
 
 ## What is Docker
 
@@ -76,7 +80,7 @@ Docker objects are available to be observed and controlled using the command `do
 - contains instructions for creating a Docker container
 - (often) is based on another image, with some additional customization
 
-## Docker Containter
+## Docker Container
 
 - a runnable instance of an image
 - you can create/start/stop/move/delete a container

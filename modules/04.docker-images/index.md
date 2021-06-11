@@ -38,6 +38,12 @@ An image is a read-only template with instructions for creating a Docker contain
 
 ![Containers and layers](image/sharing-layers.jpg)
 
+## Cache
+
+- When possible, Docker uses a build-cache to accelerate the build
+- Order your layers and group commands accordingly
+- build-cache can be shared and distributed through an image registry with `--cache-from`
+
 ## Copy on Write strategy (CoW)
 
 - Used by all storage drivers
@@ -89,3 +95,15 @@ docker build .
 # or
 docker build -t my_image:v1 .
 ```
+
+Cleanup
+
+* Remove dangling images
+
+  `docker image prune`
+
+  A new build of the image is created without a new name, the old images becomes the "dangling image".
+
+* Remove both unused and dangling images
+
+  `docker system prune -a`
