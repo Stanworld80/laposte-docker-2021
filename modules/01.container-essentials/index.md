@@ -40,62 +40,63 @@ Containers offer a logical packaging mechanism in which applications can be abst
 
 ## [CNCF Cloud Native Definition v1.0](https://github.com/cncf/toc/blob/main/DEFINITION.md)
 
-- Cloud-native technologies empower organizations to build and run scalable applications in modern, dynamic environments such as public, private, and hybrid clouds. Containers, service meshes, microservices, immutable infrastructure, and declarative APIs exemplify this approach.
+- Cloud-native technologies empower organizations to build and run **scalable applications** in , **dynamic environments** such as public, private, and hybrid clouds. Containers, service meshes, microservices, immutable infrastructure, and declarative APIs exemplify this approach.
 
-- These techniques enable loosely coupled systems that are resilient, manageable, and observable. Combined with robust automation, they allow engineers to make high-impact changes frequently and predictably with minimal toil.
+- These techniques enable **loosely coupled systems** that are resilient, manageable, and observable. Combined with robust automation, they allow engineers to make high-impact changes frequently and predictably with minimal toil.
 
-- The Cloud Native Computing Foundation seeks to drive adoption of this paradigm by fostering and sustaining an ecosystem of open-source, vendor-neutral projects. We democratize state-of-the-art patterns to make these innovations accessible for everyone.
+- The Cloud Native Computing Foundation seeks to drive adoption of this paradigm by **fostering and sustaining an ecosystem of open-source, vendor-neutral projects**. We democratize **state-of-the-art patterns** to make these innovations accessible for everyone.
 
 ## [Attributes of cloud-native applications](https://thenewstack.io/10-key-attributes-of-cloud-native-applications/)
 
 **Key:**
 
-1. Packaged as lightweight **containers**
-2. Developed with best-of-breed **languages and frameworks**
-3. Designed as **loosely coupled microservices**
+1. Packaged as lightweight **containers**.
+2. Developed with best-of-breed **languages and frameworks**.
+3. Designed as **loosely coupled microservices**.
 
 **Other attributes:**
 
-4. **Centered around APIs** for interaction and collaboration
-5. **Architected** with a clean separation of **stateless and stateful** services
-6. **Isolated** from the server and operating system dependencies
-7. **Deployed** on self-service, elastic, cloud infrastructure
+4. **Centered around APIs** for interaction and collaboration.
+5. **Architected** with a clean separation of **stateless and stateful** services.
+6. **Isolated** from the server and operating system dependencies.
+7. **Deployed** on self-service, elastic, cloud infrastructure.
 8. **Managed** through agile DevOps processes   
     Each service has an independent life cycle and CI/CD.
 9. **Automated** capabilities
-10. Defined, policy-driven resource allocation
+10. Defined, policy-driven resource allocation.
 
 ## The machine landscape
 
-Nodes can be made of multiple technologies
-- bare-metal: hardware provisioning
-- Type 1 hypervisors or “bare-metal” hypervisor
-  - Runs directly on the physical hardware
-  - Direct access to the underlying hardware
-  - Best performing and most efficient, most secured virtualization
-  - eg: Citrix/Xen Server, VMware ESXi, and Microsoft Hyper-V
-- Type 2 hypervisors
-  - Run over an existing Operating System
-  - eg: Microsoft Virtual PC, Oracle Virtual Box, VMware Workstation/Fusion
-- KVM hypervisor is a special beast
-  - Provide advantages of type 1
-  - Run-on a fully functional Operating System
-- Containers
-  - Run inside the Linux Kernel
-  - Limited to Linux, lower security with a greater surface of attack
+Nodes can be made of multiple technologies.
+- **bare-metal**:
+  - Hardware provisioning.
+- **Type 1 hypervisors** or “bare-metal” hypervisor
+  - Runs directly on the physical hardware.
+  - Direct access to the underlying hardware.
+  - Best performing and most efficient, most secured virtualization.
+  - eg: Citrix/Xen Server, VMware ESXi, and Microsoft Hyper-V.
+- **Type 2 hypervisors**
+  - Run over an existing Operating System.
+  - eg: Microsoft Virtual PC, Oracle Virtual Box, VMware Workstation/Fusion, ...
+- **KVM hypervisor** is a special beast
+  - Provide advantages of type 1.
+  - Run-on a fully functional Operating System.
+- **Containers**
+  - Run inside the Linux Kernel.
+  - Limited to Linux, lower security with a greater surface of attack.
 
 ![Virtualization versus Containerization](./assets/vm-containers.png)
 
 Virtualization requires a hypervisor
-- Enables multiple operating systems to run side-by-side
-- Orchestrates, separates, allocates the available resources (computing power, memory, storage, etc.)
+- Enables multiple operating systems to run side-by-side.
+- Orchestrates, separates, allocates the available resources (computing power, memory, storage, ...).
 
 From a functional point of view, the Docker daemon behaves like a hypervisor and Kubernetes behave like a distributed hypervisor.
 
 ## What are containers?
 
-- Standardized unit of software that allows developers to isolate their application from its environment.
-- Packages code and all its dependencies, so that the application runs quickly and reliably from one computing environment to another.
+- **Standardized unit of software** that allows developers to isolate their application from its environment.
+- **Packages code and all its dependencies**, so that the application runs quickly and reliably from one computing environment to another.
 - Container runtimes:   
   - **Docker**
   - LXC/LXD (Linux Containers)
@@ -120,12 +121,24 @@ From a functional point of view, the Docker daemon behaves like a hypervisor and
 
 ## Docker didn't create the wheel, it packaged the car
 
-- `cgroups`: manage and monitor resource allocation for a given process and set resource limits, like CPU, memory, and network limits
+- `cgroups`
+
+  Manage and monitor resource allocation for a given process and set resource limits, like CPU, memory, and network limits.
+
 - Namespaces
   Partitions kernel resources such that one set of [processes](https://en.wikipedia.org/wiki/Process_(computing)) sees one set of resources while another set of processes sees a different set of resources. Examples of such resources are process IDs, hostnames, user IDs, file names, and some names associated with network access, and [interprocess communication](https://en.wikipedia.org/wiki/Interprocess_communication). There are six default namespaces in Linux: mnt, IPC, net, usr, pid, and uts
-- Network isolation (via libnetwork): allows for separate virtual interfaces and IP addressing between containers
-- `chroot jail`: provide a root file system to each container
--  Union File System: allows multiple layers of files and directories to be overlaid
+  
+- Network isolation (via libnetwork)
+
+  Allows for separate virtual interfaces and IP addressing between containers
+
+- `chroot jail`
+
+  Provide a root file system to each container
+
+- Union File System
+
+  Allows multiple layers of files and directories to be overlaid
 
 ![Chroot Jail](assets/chroot.jpg)
 
@@ -133,9 +146,12 @@ From a functional point of view, the Docker daemon behaves like a hypervisor and
 
 Two main standards to be aware of:
 
-- Kubernetes Container Runtime Interface (CRI)\
+- Kubernetes Container Runtime Interface (CRI)
+  
   Defines an API between Kubernetes and the container runtime
-- Open Container Initiative (OCI)\
+  
+- Open Container Initiative (OCI)
+  
   Publishes specifications for images and containers
 
 ![Container ecosystem](./assets/container-ecosystem.png)
