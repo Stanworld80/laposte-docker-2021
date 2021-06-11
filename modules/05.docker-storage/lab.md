@@ -60,7 +60,7 @@
 1. Create a local directory
 
    ```
-   mkdir /my-bind-mount
+   mkdir ./my-bind-mount
    ```
 
    

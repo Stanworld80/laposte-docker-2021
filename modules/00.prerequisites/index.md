@@ -3,7 +3,7 @@
 
 ## Terminal
 
-* Most useful developper tool
+* Most useful developer tool
 * Any number of customizations
 * On Windows: Linux Bash Shell, Powershell, Git Bash
 * On macOS / Linux : Terminal (default)
@@ -74,7 +74,7 @@
 * Distributed version control
 * Users keep entire code & history locally, can make any change without internet
 * Users create snapshots of current code (`commit`) associated to a hash code
-* Users `push` commited code to the remote git server
+* Users `push` committed code to the remote git server
 * Multiple users can work on the same git project
 * When two users modify the same code they have to `merge` the two codes
 
@@ -88,7 +88,7 @@
 * `git push -u origin master` : push commits to the distant repo
 * `git pull` : pull changes from the distant repo
 
-[Git cheatsheet](https://git-tower.com/blog/git-cheat-sheet/)
+[Git cheat sheet](https://git-tower.com/blog/git-cheat-sheet/)
 
 ## Git platforms / tools
 
