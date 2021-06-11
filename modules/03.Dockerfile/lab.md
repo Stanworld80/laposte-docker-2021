@@ -14,7 +14,7 @@
 
    To create and edit a file, you can use Vim (`vi Dockerfile`) or the following syntax:
    ```
-   cat > Dockerfile <<EOF
+   cat > Dockerfile << EOF
    # Replace me with valid Dockerfile intructions
    EOF
    ```
@@ -50,9 +50,9 @@
   - `docker images`
   - `docker history webserver`
 
-3. Optionally, scan the image for vulnerabilities (you must be logged-in)
+3. Optionally, scan the image for vulnerabilities (you must be logged-in to Docker Hub). 
 
-   ` docker scan --file Dockerfile ubuntu`
+   `docker scan --file Dockerfile webserver`
 
 ## Step 3 - Run a bash session
 
