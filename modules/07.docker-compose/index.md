@@ -9,13 +9,13 @@
 ## Use cases
 
 1. **Development environments**   
-  When you’re developing software, the ability to run an application in an isolated environment and interact with it is crucial. The Compose command-line tool can be used to create the environment and interact with it.
+    When you’re developing software, the ability to run an application in an isolated environment and interact with it is crucial. The Compose command-line tool can be used to create the environment and interact with it.
 
 2. **Automated testing environments**   
-  An important part of any Continuous Deployment or Continuous Integration process is the automated test suite. Automated end-to-end testing requires an environment in which to run tests. Docker Compose provides a convenient way to create and destroy isolated testing environments for your test suite.
+    An important part of any Continuous Deployment or Continuous Integration process is the automated test suite. Automated end-to-end testing requires an environment in which to run tests. Docker Compose provides a convenient way to create and destroy isolated testing environments for your test suite.
 
 3. **Single host deployments**   
-  To deploy to a remote Docker Engine.
+    To deploy to a remote Docker Engine.
 
 ## Using Docker Compose
 
@@ -96,3 +96,135 @@ Top-level keys:
 - `docker-compose rm` - Remove stopped containers
 - `docker-compose scale` - Set number of containers for a service
 - ...
+
+## Advanced Docker Compose
+
+* Dropping the `version` property at the top of the file.
+
+  * Property is deprecated
+  * Only defined in the spec for backwards compatibility.
+
+* Avoiding 2 Compose Files for Dev and Prod with an Override File.
+
+  * Use the same `docker-compose.yml` in all environments when possible or run certain containers in development but not in production
+  * Solved with a `docker-compose.override.yml` file.
+  * Add this override file to your `.gitignore` file
+  * For developer convenience, add a `docker-compose.override.yml.example` in git which can be copied
+
+* Reducing Service Duplication with Aliases and Anchors
+
+  * Use [YAML’s aliases and anchors](https://yaml.org/spec/1.2/spec.html#id2765878) feature along with [extension fields](https://docs.docker.com/compose/compose-file/compose-file-v3/#extension-fields) from Docker Compose
+
+  * Extension field start by `x-` and are ignore
+
+  * ```yaml
+    x-app: &default-app
+      ...
+      env_file:
+      - ".env"
+      ...
+    
+    web:
+      <<: *default-app
+      ports:
+      - "${DOCKER_WEB_PORT_FORWARD:-127.0.0.1:8000}:8000"
+    
+    worker:
+      <<: *default-app
+      command: celery -A "hello.app.celery_app" worker -l "${CELERY_LOG_LEVEL:-info}"
+    ```
+
+* Defining your HEALTHCHECK in Docker Compose not your Dockerfile
+
+  * Do not to make assumptions about where apps are deployed (docker-compose VPS, Kubernetes, Heroku, ..)
+
+  * Usage of Docker is drastically different dependening on the plaform
+
+  * Kubernetes disable HEALTHCHECK if it finds one in the Dockerfile because it has its own readiness checks
+
+  * ```yaml
+    web:
+        <<: *default-app
+        healthcheck:
+          test: "${DOCKER_WEB_HEALTHCHECK_TEST:-curl localhost:8000/up}"
+          interval: "60s"
+          timeout: "3s"
+          start_period: "5s"
+          retries: 3
+    ```
+
+  * Use default and set `export DOCKER_WEB_HEALTHCHECK_TEST=/bin/true` in development.
+
+* Making the most of environment variables
+
+  * Use an `.env` file that’s ignored from version control.
+
+  * Contains a combination of secrets along with anything that might change between development and production.
+
+  * Include an .env.example file and commit it to version control with non-secret environment variables.
+
+  * Easy to get up and running in development and CI by copying this file to `.env`.
+
+  * Document the file extensively, eg
+
+    ```yaml
+    # Which environment is running? These should be "development" or "production".
+    #export FLASK_ENV=production
+    #export NODE_ENV=production
+    export FLASK_ENV=development
+    export NODE_ENV=development
+    ```
+
+  * Use `export` in `.env` files to source them in other scripts.
+  
+  * Also set a default value in case it’s not defined which you can do with `${FLASK_ENV:-production}`.
+  
+* Publishing ports more securely in production
+
+  * ```yaml
+      web:
+        ports:
+          - "${DOCKER_WEB_PORT_FORWARD:-127.0.0.1:8000}:8000"
+    ```
+
+  * Restricted to only allow localhost connections by default.
+
+  * Allow less restrictured rules in development, eg `export DOCKER_WEB_PORT_FORWARD=8000` in the `.env` file to allow connections from anywhere.
+
+* Taking advantage of Docker’s restart policies.
+
+  * ```yaml
+     web:
+        restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    ```
+
+  * Using `unless-stopped` in production ensure that containers come up after rebooting or if they crash in such a way that they can be recovered by restarting.
+
+  * Inappropriate in development mode, set `export DOCKER_RESTART_POLICY=no`.
+
+* Switching up your bind mounts depending on your environment
+
+  * ```yaml
+      web:
+        volumes:
+          - "${DOCKER_WEB_VOLUME:-./public:/app/public}"
+    ```
+
+  * In development be less restricted with `export DOCKER_WEB_VOLUME=.:/app` to benefit from code updates without having to rebuild the image
+
+* Limiting CPU and memory resources of your containers
+
+  * ```yaml
+     web:
+        deploy:
+          resources:
+            limits:
+              cpus: "${DOCKER_WEB_CPUS:-0}"
+              memory: "${DOCKER_WEB_MEMORY:-0}"
+    ```
+
+  * With `0`, services use as many resources as they need which is effectively the same as not defining these properties.
+
+  * The more complex the targeted platform, the more important it gets, provide information about app's expectation.
+
+* Log to standard out (stdout)

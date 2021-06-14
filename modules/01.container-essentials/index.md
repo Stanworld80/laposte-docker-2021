@@ -63,7 +63,7 @@ Containers offer a logical packaging mechanism in which applications can be abst
 8. **Managed** through agile DevOps processes   
     Each service has an independent life cycle and CI/CD.
 9. **Automated** capabilities
-10. Defined, policy-driven resource allocation.
+10. Defined, **policy-driven resource allocatio**n.
 
 ## The machine landscape
 
@@ -136,11 +136,20 @@ From a functional point of view, the Docker daemon behaves like a hypervisor and
 
   Provide a root file system to each container
 
-- Union File System
+- Overlay File System (Union File System)
 
   Allows multiple layers of files and directories to be overlaid
 
 ![Chroot Jail](assets/chroot.jpg)
+
+## Don't Panic: Kubernetes and Docker
+
+- Docker deprecated in Kubernetes since version 1.20, December 2020
+- Replaced by Container Runtime Interface (CRI)
+- Image continue itself
+- Docker, the tool and its associated tools, use OCI
+- Continue to use `docker` to build images
+- Continue to use `docker` and `docker-compose` to set up your development environment 
 
 ## Container landscape
 
@@ -155,12 +164,3 @@ Two main standards to be aware of:
   Publishes specifications for images and containers
 
 ![Container ecosystem](./assets/container-ecosystem.png)
-
-## Don't Panic: Kubernetes and Docker
-
-- Docker deprecated in Kubernetes since version 1.20, December 2020
-- Replaced by Container Runtime Interface (CRI)
-- Image continue itself
-- Docker, the tool and its associated tools, use CRI
-- Continue to use `docker` to build images
-- Continue to use `docker` and `docker-compose` to set up your development environment 

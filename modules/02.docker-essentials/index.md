@@ -93,6 +93,7 @@ Docker objects are available to be observed and controlled using the command `do
 
 - `docker help` - explore commands
 - `docker ps` - list running containers
+- `docker build` - build an image
 - `docker run <CONTAINER_NAME>` - list running containers
 - `docker container` - manage containers
 - `docker image` - manage images

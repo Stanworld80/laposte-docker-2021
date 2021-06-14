@@ -31,6 +31,12 @@
 * Proxy variables defined as [predefined ARGs](https://docs.docker.com/engine/reference/builder/#predefined-args)
   `docker build --build-arg HTTPS_PROXY=https://my-proxy.example.com .`
 
+## Build vs Runtime
+
+* Start with build instructions.
+* End with runtime instruction.
+* Some runtime instructions can be overwritten by the `docker run` command.
+
 ## Most common instructions
 
 * `FROM`
@@ -122,12 +128,6 @@
 * Detect arguments with bash control, eg `if [ "$1" = 'postgres' ]; then .. ; fi`.
 * Exec all arguments with `exec "$@"`.
 * Receives the Unix signals with `exec gosu <cmd>`.
-
-## Build vs Runtime
-
-* Start with build instructions.
-* End with runtime instruction.
-* Some runtime instructions can be overwritten by the `docker run` command.
 
 ## `docker build`
 
