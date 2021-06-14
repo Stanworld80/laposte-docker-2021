@@ -63,7 +63,7 @@ Containers offer a logical packaging mechanism in which applications can be abst
 8. **Managed** through agile DevOps processes   
     Each service has an independent life cycle and CI/CD.
 9. **Automated** capabilities
-10. Defined, **policy-driven resource allocatio**n.
+10. Defined, **policy-driven resource allocation**.
 
 ## The machine landscape
 

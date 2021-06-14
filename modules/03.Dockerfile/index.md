@@ -22,7 +22,7 @@
 
 * USE bash default value
 
-  `USER ${user:-some_user}`
+  `USER ${MY_USERNAME:-"some user"}`
 
 * `shells` form: `RUN <command>`, use `/bin/sh -c`
 
