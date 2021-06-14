@@ -106,4 +106,4 @@ Cleanup
 
 * Remove both unused and dangling images
 
-  `docker system prune -a`
+  `docker image prune -a`

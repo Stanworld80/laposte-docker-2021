@@ -63,8 +63,6 @@
    mkdir ./my-bind-mount
    ```
 
-   
-
 2. Mount the local directory in the container and write to it
 
    ```

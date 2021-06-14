@@ -202,7 +202,7 @@ Top-level keys:
 
   * Inappropriate in development mode, set `export DOCKER_RESTART_POLICY=no`.
 
-* Switching up your bind mounts depending on your environment
+* Switching up your bind mounts depending on your environment.
 
   * ```yaml
       web:
@@ -210,7 +210,7 @@ Top-level keys:
           - "${DOCKER_WEB_VOLUME:-./public:/app/public}"
     ```
 
-  * In development be less restricted with `export DOCKER_WEB_VOLUME=.:/app` to benefit from code updates without having to rebuild the image
+  * In development be less restricted with `export DOCKER_WEB_VOLUME=.:/app` to benefit from code updates without having to rebuild the image.
 
 * Limiting CPU and memory resources of your containers
 
@@ -227,4 +227,96 @@ Top-level keys:
 
   * The more complex the targeted platform, the more important it gets, provide information about app's expectation.
 
-* Log to standard out (stdout)
+* Log to standard out (stdout).
+
+  * Don't log to a file in the container or use a volume.
+  * Centralize log management at the Docker daemon level with `stdout`.
+  * Redirect all log to `journalctl` a 3rd paty service.
+
+* Create and respect naming conventions with environment variables.
+
+  * Namespace by concern.
+  * Re-use existing names like the one present in a dependent image, eg if using the official PostgreSQL image, re-use `POSTGRES_` names.
+
+* Setting up a health check URL endpoint
+
+  * ```
+    @page.get("/up")
+    def up():
+        redis.ping()
+        db.engine.execute("SELECT 1")
+        return ""
+    ```
+
+  * eg, use the `200` HTTP status code unless something abnormal happens
+
+  * Integrable with Docker Compose, Kubernetes or an external monitoring service like Uptime Robot.
+
+* Running your container as a non-root user
+
+  * ```
+    # These lines are important but I've commented them out to focus going over the other 3 lines.
+    # FROM node:14.15.5-buster-slim AS webpack
+    # WORKDIR /app/assets
+    # RUN mkdir -p /node_modules && chown node:node -R /node_modules /app
+    
+    USER node
+    
+    COPY --chown=node:node assets/package.json assets/*yarn* ./
+    
+    RUN yarn install
+    ```
+
+  * Limit the surface of attack.
+
+  * Re-use the image user if any, eg the `node` user in above example, or `useradd --create-home python`.
+
+  * With volume mounted files, `uid` and `gid` are usually preserved between the host and container, using `1000` as the first created user, disable the mounts in CI.
+
+* Customizing where package dependencies get installed
+
+  * ```bash
+    RUN mkdir -p /node_modules && chown node:node -R /node_modules /app && \
+      yarn config set -- --modules-folder /node_modules
+    ```
+
+  * This way, dependencies are not volume mounted
+
+* Taking advantage of layer caching
+
+  * ```bash
+    COPY --chown=node:node assets/package.json assets/*yarn* ./
+    RUN yarn install
+    COPY --chown=node:node assets .
+    ```
+
+  * This way, Docker cache the dependencies in the top layer and application changes will be much fater to build
+
+* Using build arguments
+
+  * ```bash
+    ARG NODE_ENV="production"
+    ENV NODE_ENV="${NODE_ENV}" \
+        USER="node"
+    
+    RUN if [ "${NODE_ENV}" != "development" ]; then \
+      yarn run build; else mkdir -p /app/public; fi
+    ```
+
+  * Set environment variables in your image without hard coding their value
+
+  * Set particular variables depending on the environment
+
+  * Define the build argument in the `docker-compose.yml` file
+
+    ```yaml
+    x-app: &default-app
+      build:
+        context: "."
+        target: "app"
+        args:
+          - "FLASK_ENV=${FLASK_ENV:-production}"
+          - "NODE_ENV=${NODE_ENV:-production}"
+    ```
+
+  * Leverage `.env` as a single source of truth

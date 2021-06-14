@@ -192,7 +192,7 @@ CMD [ "npm", "start" ]
 * Don’t install unnecessary packages
 * Decouple applications
 * Minimize the number of layers
-* Facilitate comprehension, sort multi-line arguments, use `\` (backslash)
 * Leverage and understand build cache
+* Facilitate comprehension, sort multi-line arguments, use `\` (backslash)
 * Use/extend [trusted images](https://docs.docker.com/engine/security/trust/)
 * Configure container's application to [run as non-root user](https://docs.docker.com/engine/security/userns-remap/) to prevent privilege-escalation

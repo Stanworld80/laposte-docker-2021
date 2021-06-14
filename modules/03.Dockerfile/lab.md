@@ -52,7 +52,7 @@
 
 3. Optionally, scan the image for vulnerabilities (you must be logged-in to Docker Hub). 
 
-   `docker scan --file Dockerfile webserver`
+   `docker scan --file Dockerfile ubuntu`
 
 ## Step 3 - Run a bash session
 
@@ -100,13 +100,13 @@ Now that NGINX is started in attached mode, we can't issue new commands from the
 
 1. Create an image with NGINX started in the container
 
-   ```
+   ```bash
    FROM ubuntu
    RUN apt-get update && apt-get install nginx -y && apt-get clean
    ENTRYPOINT ["nginx", "-g", "daemon off;"]
    ```
 
-   ```
+   ```bash
    docker build -t webserver .
    ```
 
@@ -116,13 +116,13 @@ Now that NGINX is started in attached mode, we can't issue new commands from the
 
 3. Verify the output with curl:
 
-   `curl localhost:8080`
+   `curl http://localhost:8080`
 
-## Step 4 - Build a web application image
+## Step 6 - Build a web application image
 
 1. Create a home page of a web application. We need to create the `index.html` file in the `./html` directory with the following content:
 
-  ```
+  ```html
   <!DOCTYPE html>
   <html>
     <head>
@@ -136,7 +136,7 @@ Now that NGINX is started in attached mode, we can't issue new commands from the
 
 2. Enhance our existing `Dockerfile` with the following content:
 
-  ```
+  ```bash
   FROM ubuntu
   RUN apt-get update && apt-get install nginx -y && apt-get clean
   WORKDIR /var/www/html
@@ -152,7 +152,7 @@ Now that NGINX is started in attached mode, we can't issue new commands from the
   - the `Dockerfile`: `cat Dockerfile`
   - the HTML file: `cat html/index.html`
 
-## Step 5 - Build and run it again
+## Step 7 - Build and run it again
 
 1. Rebuild the image:
 
