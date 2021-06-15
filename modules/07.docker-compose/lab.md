@@ -11,7 +11,7 @@
 ## Step 1 - a basic Go web server
 
 * If go is not yet present, install it:
-  `command -v go || apt install -y golang-go`
+  `command -v go || sudo apt install -y golang-go`
   
 * Create a new directory `step_1`.
 
@@ -69,8 +69,6 @@
   ```bash
   docker build -t ping:step_2 .
   ```
-
-  
 
 * Start a container from this image:
 
@@ -139,7 +137,8 @@
   docker run \
     -it \
     --rm \
-    mariadb mysql \
+    mariadb \
+    mysql \
       -h$MYSQL_HOST \
       -p3306 \
       -uroot \
@@ -192,7 +191,8 @@
   docker run \
     -it \
     --rm \
-    mariadb mysql \
+    mariadb \
+    mysql \
       -h$MYSQL_HOST \
       -p3306 \
       -uroot \
@@ -258,7 +258,8 @@
   docker run \
     -it \
     --rm \
-    mariadb mysql \
+    mariadb \
+    mysql \
       -h$MYSQL_HOST \
       -p3306 \
       -uroot \
@@ -266,7 +267,7 @@
       -e "SELECT * FROM ping.history;"
   ```
 
-* Stop and remove the container, including the database container:
+* Stop and remove the containers, including the database container:
 
   ```bash
   docker rm -f ping_app ping-mariadb
@@ -360,18 +361,122 @@
   docker run \
     -it \
     --rm \
-    mariadb mysql \
+    mariadb \
+    mysql \
       -hstep_5_db_1 \
       -p3306 \
       -uroot \
       -pmy-secret-pw \
       -e "SELECT * FROM ping.history;"
   ```
+  
+* Stop and remove the containers:
 
+  ```bash
+  docker-compose stop
+  docker-compose rm
+  ```
 
-## Step 6 - further improvment
+## Step 6 - control the startup order and persist data
 
-* Starting the `web` container with a starter scripts which test and retry the connection a few times before failing.
+* Import the files `app.go`, `go.mod`, `go.sum` and `Dockerfile`. They remain identical to `step_4`.
+
+* Modify the `docker-compose.yml` declaration:
+
+  ```yml
+  services:
+    web:
+      build: .
+      depends_on:
+        - db
+      ports:
+        - "8080:8080"
+      env_file:
+        - ".env"
+    db:
+      image: 'mariadb'
+      env_file:
+        - ".env"
+      volumes:
+        - db_data:/var/lib/mysql
+  
+  volumes:
+      db_data: {}
+  ```
+
+  * A volume `db_data` persist the MariaDB database.
+  * Container `web` depends on container `db`.
+  * Container `db` is reaching with the hostname `db`.
+
+* Modify the `.env` file to reflect the new hostname of container `db`.
+
+  ```bash
+  cat >.env <<ENV
+  MYSQL_HOST=db
+  MYSQL_PASSWORD=my-secret-pw
+  MYSQL_ROOT_PASSWORD=my-secret-pw
+  ENV
+  ```
+
+* Build and start the containers:
+
+  ```bash
+  docker-compose build
+  docker-compose create
+  docker-compose start
+  ```
+
+* Check the volume creation:
+
+  ```bash
+  docker volume ls | grep step_6
+  ```
+
+* Insert some data:
+
+  ```bash
+  curl http://localhost:8080/pong/step_6/message_1
+  curl http://localhost:8080/pong/step_6/message_2
+  ```
+
+* Destroy the container and restart them:
+
+  ```
+  docker-compose stop
+  docker-compose rm
+  docker-compose ps
+  docker-compose create
+  docker-compose start
+  docker-compose ps
+  ```
+
+* Insert new data and validate that previous data where persisted:
+
+  ```bash
+  curl http://localhost:8080/pong/step_6/message_3
+  curl http://localhost:8080/pong/step_6/message_4
+  docker-compose exec \
+    db \
+    mysql \
+      -hlocalhost \
+      -p3306 \
+      -uroot \
+      -pmy-secret-pw \
+      -e "SELECT * FROM ping.history;"
+  ```
+
+* Stop and remove all resources:
+
+  ```bash
+  docker-compose stop
+  docker-compose rm
+  docker volume rm step_6_db_data
+  ```
+
+  
+
+## Step 7 - further improvment
+
 * Reducing service duplication in `docker-compose.yml` with aliases and anchors, eg by sharing the `.env` declaration.
 * Introducing a health check in the web service.
 * Create a `docker-compose.override.yml` and intialize the database in the starter script or based on the presence of an environment variable whose value differ between the production and development environments.
