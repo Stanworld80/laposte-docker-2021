@@ -1,0 +1,24 @@
+services:
+  web:
+    build: .
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: "60s"
+      timeout: "3s"
+      start_period: "2s"
+      retries: 3
+    env_file:
+      - ".env"
+    ports:
+      - "8080:8080"
+  db:
+    env_file:
+      - ".env"
+    image: 'mariadb'
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+    db_data: {}

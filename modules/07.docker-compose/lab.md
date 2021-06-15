@@ -370,16 +370,17 @@
       -e "SELECT * FROM ping.history;"
   ```
   
-* Stop and remove the containers:
+* Stop and remove the containers and their associated resources:
 
   ```bash
   docker-compose stop
   docker-compose rm
+  docker network rm step_6_default
   ```
 
 ## Step 6 - control the startup order and persist data
 
-* Import the files `app.go`, `go.mod`, `go.sum` and `Dockerfile`. They remain identical to `step_4`.
+* Import the files `app.go`, `go.mod`, `go.sum` and `Dockerfile`. They remain identical to `step_5`.
 
 * Modify the `docker-compose.yml` declaration:
 
@@ -465,17 +466,101 @@
       -e "SELECT * FROM ping.history;"
   ```
 
-* Stop and remove all resources:
+* Stop and remove the containers and their associated resources:
 
   ```bash
   docker-compose stop
   docker-compose rm
+  docker network rm step_6_default
   docker volume rm step_6_db_data
+  ```
+
+## Step 7 - define an health check HTTP endpoint
+
+* Import the files `env`, app.go`, `go.mod`, `go.sum` and `Dockerfile`. They remain identical to `step_6`.
+
+* Modify the `app.go` application to expose an healthcheck HTTP endpoint:
+
+  ```go
+  ...
+  func main() {
+      dbInit()
+      // Default endpoint
+      http.HandleFunc("/", handler)
+      // Health check endpoint
+      lastcheck := time.Now()
+      http.HandleFunc("/healthz", func (w http.ResponseWriter, r *http.Request) {
+          duration := time.Now().Sub(lastcheck)
+          lastcheck = time.Now()
+          if duration.Seconds() > 10 {
+              w.WriteHeader(500)
+              w.Write([]byte(fmt.Sprintf("error: %v", duration.Seconds())))
+          } else {
+              w.WriteHeader(200)
+              w.Write([]byte("ok"))
+          }
+      })
+      log.Fatal(http.ListenAndServe(":8080", nil))
+  }
+  ...
+  ```
+
+  * The HTTP endpoint is `/healthz`
+  * The application is considered healthy if the endpoint was called in the last 10 seconds.
+
+* Declare the healthcheck command in the `docker-compose.yml` file:
+
+  ```yaml
+  services:
+    web:
+      build: .
+      depends_on:
+        - db
+      env_file:
+        - ".env"
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+        interval: "60s"
+        timeout: "3s"
+        start_period: "2s"
+        retries: 3
+      ports:
+        - "8080:8080"
+    db:
+      env_file:
+        - ".env"
+      image: 'mariadb'
+      volumes:
+        - db_data:/var/lib/mysql
+  
+  volumes:
+      db_data: {}
+  ```
+
+  * Now that the file start to get bigger, we re-order the properties.
+  * The healthcheck properties require some tuning to reflect the application behavior.
+
+* Validate the container status:
+
+  ```bash
+  docker-compose build
+  docker-compose create
+  docker-compose start
+  docker-compose up
+  ```
+
+* Stop and remove the containers and their associated resources:
+
+  ```
+  docker-compose stop
+  docker-compose rm
+  docker network rm step_7_default
+  docker volume rm step_7_db_data
   ```
 
   
 
-## Step 7 - further improvment
+## Step 8 - further improvment
 
 * Reducing service duplication in `docker-compose.yml` with aliases and anchors, eg by sharing the `.env` declaration.
 * Introducing a health check in the web service.
