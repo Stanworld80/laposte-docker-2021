@@ -39,10 +39,6 @@ Docker’s networking subsystem is pluggable, using drivers:
 
 [Read more](https://towardsdatascience.com/docker-networking-919461b7f498)
 
-## Network drivers: `bridge`
-
-TODO
-
 ## CLI examples: `bridge`
 
 - `docker network create my-net` - create a network

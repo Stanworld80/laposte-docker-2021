@@ -27,7 +27,7 @@ A three-step process:
 
 ## Structure of `docker-compose.yml`
 
-- The `version` of the compose file
+- The `version` of the compose file (deprecated)
 - The `services` which will be built
 - All used `volumes`
 - The `networks` which connect the different services
@@ -53,7 +53,6 @@ services:
        MYSQL_DATABASE: wordpress
        MYSQL_USER: wordpress
        MYSQL_PASSWORD: wordpress
-
    wordpress:
      depends_on:
        - db
@@ -98,6 +97,8 @@ Top-level keys:
 - ...
 
 ## Advanced Docker Compose
+
+* [See production apps with Docker Compose](https://nickjanetakis.com/blog/best-practices-around-production-ready-web-apps-with-docker-compose)
 
 * Dropping the `version` property at the top of the file.
 
@@ -161,7 +162,7 @@ Top-level keys:
 
   * Contains a combination of secrets along with anything that might change between development and production.
 
-  * Include an .env.example file and commit it to version control with non-secret environment variables.
+  * Include an `.env.example` file and commit it to version control with non-secret environment variables.
 
   * Easy to get up and running in development and CI by copying this file to `.env`.
 
