@@ -150,7 +150,7 @@
 
 * Import the following files:
 
-  * `step_3/main.go`
+  * `step_3/app.go`
 
     The application is getting more complex, it initializes the database and insert messages into it.
 
@@ -162,7 +162,7 @@
 
     Contains the checksums of the content of specific module versions.
 
-* Looking at the `main.go` file, the database connection properties are obtained from environment variables and use default when appropriate:
+* Looking at the `app.go` file, the database connection properties are obtained from environment variables and use default when appropriate:
 
   ```bash
   cat app.go | grep getEnv
